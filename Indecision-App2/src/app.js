@@ -5,32 +5,71 @@ const app = {
     options: ['one', 'two']
 }
 
-const template = 
+const onFormSubmit = (e) =>{//e is the event object we get returned for events we set up
+    e.preventDefault();//this stops the full page refresh
+
+    const option = e.target.elements.option.value;
+    console.log("Form Submitted: " + option);
+
+    if(option){
+        app.options.push(option);
+        e.target.elements.option.value = '';
+        reRender();
+    }
+}
+
+const removeAll = () => {
+    app.options = [];
+    console.log(app.options.length);
+    reRender();
+};
+
+const onMakeDecison = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    const option = app.options[randomNum];
+    alert(option);
+};
+
+const reRender = () => {
+    const template = 
     <div>
         <h1>Header</h1>
         {app.subtitle && <p>{app.subtitle}</p>}
-        <p>{app.options.length > 0 ? "Here are Your Options "+app.options.toString() : "No Options"}</p>
+        <p>{app.options.length > 0 ? "Here are Your Optsions "+app.options.toString() : "No Options"}</p>
+        <button onClick={removeAll}>Remove All</button>
+        <button disabled={app.options.length ===0} onClick={onMakeDecison}>What should I do</button>
+        <ol>
+            {app.options.map((val, index) => <li key={index}>Option: {val}</li>)}
+        </ol>
+        <form onSubmit={onFormSubmit}>
+            <input type="text" name="option"></input>
+            <button>Add Option</button>
+        </form>
     </div>;
+
+    ReactDOM.render(template, appRoot);
+}
+
+
 const appRoot = document.getElementById("app");
 
+reRender();
 
 
-var user = {
-    name: "tenzin",
-    age: 18,
-    location: "New York"
-};
 
-function getLocation(location){
-    if(location){
-        return <p>Location: {location}</p>;
-    }
-}
-var templateTwo = 
-    <div>   
-        <h1>{user.name ? user.name : "Anonymous"}</h1>
-        {user.age >=18 && <p>age: {user.age}</p>}
-        {getLocation(user.location)}
-    </div>
+// const number = [55,101,1000];
 
-ReactDOM.render(template, appRoot);
+// const template = (
+//     <div>
+//         {number.map((val, index) => <p key={index}>{val}</p>)}
+//     </div>
+// );
+
+
+// console.log(number.map((val, index) => <p key={index}>Number: {val}</p>));
+
+
+
+// const rootApp = document.getElementById("app");
+
+// ReactDOM.render(template, rootApp);
