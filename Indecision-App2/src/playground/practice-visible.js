@@ -1,9 +1,6 @@
-console.log("test");
-
 let text;
 let buttonText = "Show detail";
 const appRoot = document.getElementById("app");
-
 
 const toggleText = () => {
     if(!text){
@@ -15,8 +12,6 @@ const toggleText = () => {
     }
     reRender();
 }
-
-
 
 const reRender = () =>{
     const template = (
